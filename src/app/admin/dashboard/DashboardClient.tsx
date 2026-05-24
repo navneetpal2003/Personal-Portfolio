@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Terminal, LayoutDashboard, User, FolderGit2, Sparkles, Mail, 
-  Plus, Trash2, Edit2, CheckCircle2, AlertCircle, Upload, Loader2, Star
+  Plus, Trash2, Edit2, CheckCircle2, AlertCircle, Upload, Loader2, Star,
+  LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -67,6 +68,28 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ initialData }: DashboardClientProps) {
   const router = useRouter();
+  
+  const handleLogout = async () => {
+    try {
+      setStatus('loading');
+      const res = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      if (res.ok) {
+        setStatus('success');
+        setStatusMessage('Logged out successfully.');
+        router.push('/');
+        router.refresh();
+      } else {
+        setStatus('error');
+        setStatusMessage('Failed to logout.');
+      }
+    } catch {
+      setStatus('error');
+      setStatusMessage('Network error on logout.');
+    }
+  };
+
   const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'projects' | 'skills' | 'inbox'>('overview');
   
   // Status states
@@ -454,7 +477,14 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
           </div>
         </div>
 
-
+        {/* Bottom actions (Logout) */}
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer hover:bg-rose-500/10 text-rose-600 mt-auto md:mt-0"
+        >
+          <LogOut className="w-4.5 h-4.5" />
+          <span>Log out</span>
+        </button>
       </aside>
 
       {/* Main Dashboard body */}
