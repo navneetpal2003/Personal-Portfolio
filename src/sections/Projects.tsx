@@ -61,10 +61,11 @@ export default function Projects({ projects }: ProjectsProps) {
   } as const;
 
   const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 35, opacity: 0, scale: 0.94 },
     visible: {
       y: 0,
       opacity: 1,
+      scale: 1,
       transition: { type: 'spring', stiffness: 90, damping: 15 },
     },
   } as const;
@@ -72,13 +73,13 @@ export default function Projects({ projects }: ProjectsProps) {
   return (
     <section id="projects" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background blobs */}
-      <div className="absolute top-[10%] right-[10%] w-[30vw] h-[30vw] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none glow-blob" />
-      <div className="absolute bottom-[30%] left-[10%] w-[25vw] h-[25vw] bg-primary/5 rounded-full blur-[90px] pointer-events-none glow-blob [animation-delay:4s]" />
+      <div className="absolute top-[10%] right-[10%] w-[30vw] h-[30vw] bg-indigo-500/8 rounded-full blur-[100px] pointer-events-none glow-blob" />
+      <div className="absolute bottom-[30%] left-[10%] w-[25vw] h-[25vw] bg-primary/8 rounded-full blur-[90px] pointer-events-none glow-blob [animation-delay:4s]" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 font-display">
             Featured{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-500">
               Projects
@@ -88,18 +89,25 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
 
         {/* Filter Navigation Tab */}
-        <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
+        <div className="flex flex-wrap justify-center items-center gap-2 mb-12 bg-white/30 backdrop-blur-md p-1.5 rounded-full border border-white/20 w-fit mx-auto shadow-sm">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`relative px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-300 cursor-pointer ${
+              className={`relative px-5 py-2 text-sm font-bold rounded-full transition-all duration-350 cursor-pointer z-10 ${
                 selectedCategory === category
-                  ? 'border-primary text-white bg-primary'
-                  : 'border-slate-200/60 dark:border-white/5 bg-white/20 dark:bg-white/5 hover:border-primary/40'
+                  ? 'text-white'
+                  : 'text-slate-700 hover:text-primary'
               }`}
             >
-              <span>{category}</span>
+              <span className="relative z-20">{category}</span>
+              {selectedCategory === category && (
+                <motion.div
+                  layoutId="activeCategoryBg"
+                  className="absolute inset-0 bg-primary rounded-full shadow-[0_4px_15px_rgba(127,13,242,0.25)]"
+                  transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                />
+              )}
             </button>
           ))}
         </div>
@@ -123,17 +131,17 @@ export default function Projects({ projects }: ProjectsProps) {
                 animate="visible"
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 transition={{ type: 'spring', stiffness: 90, damping: 15 }}
-                className="group glass glass-card p-6 rounded-2xl border border-white/40 dark:border-white/5 flex flex-col justify-between h-[360px] cursor-pointer clickable relative overflow-hidden"
+                className="group glass glass-card glass-shimmer p-6 rounded-2xl border border-white/55 flex flex-col justify-between h-[360px] cursor-pointer clickable relative overflow-hidden"
                 onClick={() => setSelectedProject(project)}
               >
                 <div>
                   {/* Card category & decoration */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="px-2.5 py-0.5 text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/10 rounded-full uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 text-[10px] font-bold bg-primary/10 text-primary border border-primary/20 rounded-full uppercase tracking-wider">
                       {project.category}
                     </span>
                     {project.featured && (
-                      <span className="flex items-center gap-1 text-[10px] font-bold text-amber-500 dark:text-amber-400">
+                      <span className="flex items-center gap-1 text-[10px] font-bold text-amber-600">
                         <Layers className="w-3 h-3" />
                         <span>FEATURED</span>
                       </span>
@@ -141,10 +149,10 @@ export default function Projects({ projects }: ProjectsProps) {
                   </div>
 
                   {/* Title & brief description */}
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors leading-snug mb-3">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors leading-snug mb-3 font-display">
                     {project.title}
                   </h3>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                  <p className="text-sm font-medium text-slate-700 line-clamp-3 leading-relaxed mb-4">
                     {project.description}
                   </p>
                 </div>
@@ -155,20 +163,20 @@ export default function Projects({ projects }: ProjectsProps) {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 text-[10px] font-semibold rounded bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300"
+                        className="px-2 py-0.5 text-[10px] font-bold rounded bg-white/60 text-slate-700 border border-slate-200/50 shadow-sm"
                       >
                         {tag}
                       </span>
                     ))}
                     {project.tags.length > 3 && (
-                      <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300">
+                      <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-white/60 text-slate-700 border border-slate-200/50 shadow-sm">
                         +{project.tags.length - 3} more
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-slate-200/50 dark:border-white/5 pt-4">
-                    <span className="text-xs font-semibold text-primary inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <div className="flex items-center justify-between border-t border-slate-200/80 pt-4">
+                    <span className="text-xs font-bold text-primary inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                       <span>View details</span>
                       <Eye className="w-3.5 h-3.5" />
                     </span>

@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/_global-error/page": "/_global-error",
+  "/api/auth/check/route": "/api/auth/check",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/api/profile/route": "/api/profile",
+  "/api/projects/[id]/route": "/api/projects/[id]",
+  "/api/projects/route": "/api/projects",
+  "/api/skills/route": "/api/skills",
+  "/favicon.ico/route": "/favicon.ico",
+  "/api/upload/route": "/api/upload",
+  "/api/contact/route": "/api/contact",
+  "/admin/login/page": "/admin/login",
+  "/page": "/",
+  "/admin/dashboard/page": "/admin/dashboard"
+}

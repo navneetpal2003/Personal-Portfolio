@@ -50,21 +50,21 @@ export default function Footer({ name, github, linkedin, email }: FooterProps) {
   };
 
   return (
-    <footer className="relative border-t border-slate-200/50 dark:border-white/5 py-12 bg-transparent z-10">
+    <footer className="relative border-t border-slate-200/60 py-12 bg-transparent z-10">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo & Info */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-sm">
               <Terminal className="w-4 h-4" />
             </div>
-            <span className="font-bold tracking-tight text-slate-800 dark:text-white">
+            <span className="font-bold tracking-tight text-slate-800">
               {name}.ai
             </span>
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-6 text-slate-400">
+          <div className="flex items-center gap-6 text-slate-500">
             <a
               href={github}
               target="_blank"
@@ -72,7 +72,7 @@ export default function Footer({ name, github, linkedin, email }: FooterProps) {
               className="hover:text-primary transition-colors cursor-pointer"
               aria-label="GitHub"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-5.5 h-5.5" />
             </a>
             <a
               href={linkedin}
@@ -81,32 +81,32 @@ export default function Footer({ name, github, linkedin, email }: FooterProps) {
               className="hover:text-primary transition-colors cursor-pointer"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-5.5 h-5.5" />
             </a>
             <a
               href={`mailto:${email}`}
               className="hover:text-primary transition-colors cursor-pointer"
               aria-label="Email"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-5.5 h-5.5" />
             </a>
           </div>
 
           {/* Back to top button */}
           <button
             onClick={scrollToTop}
-            className="w-10 h-10 rounded-full glass border-slate-200/60 dark:border-white/5 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/30 transition-all cursor-pointer shadow-sm"
+            className="w-10 h-10 rounded-full glass border border-white/60 flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary/30 transition-all cursor-pointer shadow-sm hover:shadow-md"
             aria-label="Back to top"
           >
-            <ArrowUp className="w-4.5 h-4.5" />
+            <ArrowUp className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-400 uppercase tracking-wider text-center sm:text-left">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center sm:text-left">
           <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
           <p>
             Designed & Engineered with{' '}
-            <span className="text-primary hover:animate-pulse">Next.js & R3F</span>
+            <span className="text-primary hover:animate-pulse">Next.js</span>
           </p>
         </div>
       </div>

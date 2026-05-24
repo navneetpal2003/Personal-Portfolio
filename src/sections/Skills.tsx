@@ -64,10 +64,11 @@ export default function Skills({ skills }: SkillsProps) {
   } as const;
 
   const itemVariants = {
-    hidden: { y: 25, opacity: 0 },
+    hidden: { y: 35, opacity: 0, scale: 0.94 },
     visible: {
       y: 0,
       opacity: 1,
+      scale: 1,
       transition: { type: 'spring', stiffness: 90, damping: 14 },
     },
   } as const;
@@ -75,13 +76,13 @@ export default function Skills({ skills }: SkillsProps) {
   return (
     <section id="skills" className="py-24 relative overflow-hidden bg-transparent">
       {/* Glow blobs */}
-      <div className="absolute top-[20%] left-[5%] w-[25vw] h-[25vw] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none glow-blob" />
-      <div className="absolute bottom-[20%] right-[5%] w-[30vw] h-[30vw] bg-primary/5 rounded-full blur-[120px] pointer-events-none glow-blob [animation-delay:5s]" />
+      <div className="absolute top-[20%] left-[5%] w-[25vw] h-[25vw] bg-cyan-500/8 rounded-full blur-[100px] pointer-events-none glow-blob" />
+      <div className="absolute bottom-[20%] right-[5%] w-[30vw] h-[30vw] bg-primary/8 rounded-full blur-[120px] pointer-events-none glow-blob [animation-delay:5s]" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 font-display">
             Technical{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-cyan-500">
               Expertise
@@ -106,7 +107,7 @@ export default function Skills({ skills }: SkillsProps) {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className={`group glass glass-card p-6 rounded-2xl border border-white/40 dark:border-white/5 flex flex-col gap-5 ${theme.glow}`}
+                className={`group glass glass-card glass-shimmer p-6 rounded-2xl border border-white/40 flex flex-col gap-5 ${theme.glow}`}
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -114,7 +115,7 @@ export default function Skills({ skills }: SkillsProps) {
                   >
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 font-display group-hover:text-primary transition-colors">
                     {category.category}
                   </h3>
                 </div>
@@ -123,7 +124,7 @@ export default function Skills({ skills }: SkillsProps) {
                   {category.list.map((skill, sIdx) => (
                     <span
                       key={sIdx}
-                      className="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200/50 dark:border-white/5 transition-all hover:border-primary/40 hover:text-primary dark:hover:text-primary transform hover:scale-[1.03] duration-200 cursor-default"
+                      className="px-3 py-1 text-xs font-bold rounded-lg bg-white/50 text-slate-800 border border-slate-200/80 shadow-[0_2px_5px_rgba(0,0,0,0.02)] transition-all hover:border-primary/40 hover:text-primary transform hover:scale-[1.03] duration-200 cursor-default"
                     >
                       {skill}
                     </span>

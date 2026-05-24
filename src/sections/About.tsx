@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Award, Brain, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface AboutProps {
@@ -10,18 +11,62 @@ interface AboutProps {
   achievements: string[];
 }
 
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { damping: 25, stiffness: 220 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { damping: 25, stiffness: 220 });
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    
+    const rect = el.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    
+    const mouseX = e.clientX - rect.left - width / 2;
+    const mouseY = e.clientY - rect.top - height / 2;
+    
+    x.set(mouseX / width);
+    y.set(mouseY / height);
+  };
+  
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+  
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={`${className} cursor-pointer`}
+    >
+      <div style={{ transform: "translateZ(25px)", transformStyle: "preserve-3d" }} className="w-full h-full">
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function About({ profile, achievements }: AboutProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+      transition: { staggerChildren: 0.12, delayChildren: 0.1 }
     }
   } as const;
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
+    hidden: { y: 35, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 90, damping: 14 } }
   } as const;
 
   const stats = [
@@ -33,13 +78,13 @@ export default function About({ profile, achievements }: AboutProps) {
   return (
     <section id="about" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background lights */}
-      <div className="absolute top-[30%] right-[5%] w-[25vw] h-[25vw] bg-indigo-500/5 rounded-full blur-[90px] pointer-events-none glow-blob" />
-      <div className="absolute bottom-[10%] left-[5%] w-[30vw] h-[30vw] bg-rose-500/5 rounded-full blur-[100px] pointer-events-none glow-blob [animation-delay:3s]" />
+      <div className="absolute top-[30%] right-[5%] w-[25vw] h-[25vw] bg-indigo-500/8 rounded-full blur-[90px] pointer-events-none glow-blob" />
+      <div className="absolute bottom-[10%] left-[5%] w-[30vw] h-[30vw] bg-rose-500/8 rounded-full blur-[100px] pointer-events-none glow-blob [animation-delay:3s]" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Title */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 font-display">
             About &{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-500">
               Achievements
@@ -56,22 +101,21 @@ export default function About({ profile, achievements }: AboutProps) {
           className="grid grid-cols-1 lg:grid-cols-3 gap-8"
         >
           {/* Main Bio Card */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 glass glass-card p-8 rounded-3xl flex flex-col gap-6"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Brain className="w-5 h-5" />
+          <motion.div variants={itemVariants} className="lg:col-span-2">
+            <TiltCard className="glass glass-card p-8 rounded-3xl flex flex-col gap-6 w-full h-full">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <Brain className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 font-display">Professional Journey</h3>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Professional Journey</h3>
-            </div>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-              {profile.bio} I love working at the intersection of AI modeling and web systems, implementing production-ready pipelines that bring intelligence to real-world applications.
-            </p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-              Throughout my computer science degree, I have continuously challenged myself by participating in coding activities, solving algorithmic problems on platforms like LeetCode and HackerRank, and building projects using state-of-the-art framework systems like Gemini API, LangChain, and Streamlit.
-            </p>
+              <p className="text-slate-700 leading-relaxed font-semibold text-sm md:text-base">
+                {profile.bio} I love working at the intersection of AI modeling and web systems, implementing production-ready pipelines that bring intelligence to real-world applications.
+              </p>
+              <p className="text-slate-700 leading-relaxed font-medium text-sm md:text-base">
+                Throughout my computer science degree, I have continuously challenged myself by participating in coding activities, solving algorithmic problems on platforms like LeetCode and HackerRank, and building projects using state-of-the-art framework systems like Gemini API, LangChain, and Streamlit.
+              </p>
+            </TiltCard>
           </motion.div>
 
           {/* Quick Stats Grid */}
@@ -82,43 +126,42 @@ export default function About({ profile, achievements }: AboutProps) {
             {stats.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div
+                <TiltCard
                   key={i}
-                  className="glass glass-card p-6 rounded-2xl flex items-center gap-5"
+                  className="glass glass-card p-6 rounded-2xl flex items-center gap-5 w-full"
                 >
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.color}`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stat.value}</h4>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{stat.label}</p>
+                    <h4 className="text-2xl font-black text-slate-900 font-display">{stat.value}</h4>
+                    <p className="text-xs font-bold text-slate-600 uppercase tracking-wider font-mono">{stat.label}</p>
                   </div>
-                </div>
+                </TiltCard>
               );
             })}
           </motion.div>
 
           {/* Key Achievements Card */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-3 glass glass-card p-8 rounded-3xl mt-2"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500">
-                <Award className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Key Achievements & Milestones</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {achievements.map((achievement, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-normal">
-                    {achievement}
-                  </p>
+          <motion.div variants={itemVariants} className="lg:col-span-3">
+            <TiltCard className="glass glass-card p-8 rounded-3xl mt-2 w-full">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500">
+                  <Award className="w-5 h-5" />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-xl font-bold text-slate-900 font-display">Key Achievements & Milestones</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {achievements.map((achievement, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <p className="text-sm font-semibold text-slate-700 leading-normal">
+                      {achievement}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </TiltCard>
           </motion.div>
         </motion.div>
       </div>

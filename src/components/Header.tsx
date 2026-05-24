@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Terminal, Menu, X, User } from 'lucide-react';
+import { Sun, Moon, Terminal, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Header() {
@@ -73,59 +73,35 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary relative py-1 ${
+                className={`text-sm font-semibold transition-colors hover:text-primary relative px-4 py-1.5 rounded-full ${
                   activeSection === link.href.substring(1)
                     ? 'text-primary'
-                    : 'text-slate-600 dark:text-slate-300'
+                    : 'text-slate-700'
                 }`}
               >
-                {link.name}
+                <span className="relative z-10">{link.name}</span>
                 {activeSection === link.href.substring(1) && (
                   <motion.div
                     layoutId="activeNavIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 bg-primary/10 border border-primary/20 rounded-full"
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
                   />
                 )}
               </a>
             ))}
           </div>
 
-          {/* Desktop Right Buttons (Theme + Admin) */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
-            </button>
-            <Link
-              href="/admin/dashboard"
-              className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
-              aria-label="Admin Dashboard"
-            >
-              <User className="w-4.5 h-4.5" />
-            </Link>
-          </div>
-
+ 
           {/* Mobile Menu Toggle */}
           <div className="flex md:hidden items-center gap-1">
             <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
-            <button
               onClick={() => setIsOpen(!isOpen)}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-700 border border-slate-200/50 bg-white/30 cursor-pointer"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -150,21 +126,13 @@ export default function Header() {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`text-base font-semibold py-2 px-3 rounded-xl hover:bg-primary/5 hover:text-primary ${
-                    activeSection === link.href.substring(1) ? 'text-primary bg-primary/5' : 'text-slate-700 dark:text-slate-300'
+                    activeSection === link.href.substring(1) ? 'text-primary bg-primary/5' : 'text-slate-700'
                   }`}
                 >
                   {link.name}
                 </a>
               ))}
-              <hr className="border-slate-200 dark:border-slate-800 my-1" />
-              <Link
-                href="/admin/dashboard"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 text-base font-semibold py-2 px-3 rounded-xl hover:bg-primary/5 hover:text-primary text-slate-700 dark:text-slate-300"
-              >
-                <User className="w-4.5 h-4.5" />
-                <span>Admin Dashboard</span>
-              </Link>
+
             </div>
           </motion.div>
         )}

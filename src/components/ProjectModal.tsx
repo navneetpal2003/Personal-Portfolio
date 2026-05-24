@@ -62,7 +62,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/40 backdrop-blur-md"
+            className="absolute inset-0 bg-slate-950/30 backdrop-blur-xl"
           />
 
           {/* Modal Container */}
@@ -71,12 +71,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring' as const, damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto glass p-6 md:p-8 rounded-3xl border border-white/50 dark:border-white/15 shadow-2xl flex flex-col gap-6"
+            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto glass p-6 md:p-8 rounded-3xl border border-white/40 shadow-2xl flex flex-col gap-6"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary hover:bg-slate-300/50 dark:hover:bg-white/15 transition-all cursor-pointer"
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-200/40 flex items-center justify-center text-slate-700 hover:text-primary hover:bg-slate-200/60 transition-all cursor-pointer z-10"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -84,24 +84,24 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Header Content */}
             <div className="flex flex-col gap-2.5 pr-8">
-              <span className="px-3 py-1 text-xs font-bold bg-primary/10 text-primary border border-primary/20 rounded-full w-fit uppercase tracking-widest">
+              <span className="px-3 py-1 text-xs font-bold bg-primary/10 text-primary border border-primary/20 rounded-full w-fit uppercase tracking-widest font-mono">
                 {project.category}
               </span>
-              <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-tight">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight font-display">
                 {project.title}
               </h3>
             </div>
 
             {/* Simulated Screenshot / Interactive Graphic */}
-            <div className="relative w-full aspect-video rounded-2xl bg-gradient-to-br from-primary/10 via-indigo-500/10 to-cyan-500/10 border border-white/40 dark:border-white/5 overflow-hidden flex items-center justify-center p-4">
+            <div className="relative w-full aspect-video rounded-2xl bg-gradient-to-br from-primary/10 via-indigo-500/10 to-cyan-500/10 border border-white/40 overflow-hidden flex items-center justify-center p-4">
               {/* Fallback mock visualization using SVGs and CSS */}
-              <div className="w-full h-full flex flex-col justify-between p-4 bg-white/20 dark:bg-black/20 rounded-xl backdrop-blur-sm border border-white/30 dark:border-white/5 relative overflow-hidden">
+              <div className="w-full h-full flex flex-col justify-between p-4 bg-white/40 rounded-xl backdrop-blur-sm border border-white/40 relative overflow-hidden">
                 {/* Browser bar */}
-                <div className="flex items-center gap-1.5 border-b border-slate-200/40 dark:border-white/5 pb-2.5">
+                <div className="flex items-center gap-1.5 border-b border-slate-200/40 pb-2.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
                   <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                   <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                  <div className="text-[10px] text-slate-500/80 dark:text-slate-400/80 ml-2 font-mono truncate max-w-[60%]">
+                  <div className="text-[10px] text-slate-600 ml-2 font-mono truncate max-w-[60%]">
                     {project.id}.app
                   </div>
                 </div>
@@ -116,7 +116,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </div>
 
                 {/* Footer status */}
-                <div className="flex justify-between items-center text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                <div className="flex justify-between items-center text-[10px] text-slate-600 font-mono">
                   <span>Status: Operational</span>
                   <span>Stack: {project.tags.slice(0, 3).join(' | ')}</span>
                 </div>
@@ -125,24 +125,24 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {/* Description */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 font-mono">
                 Project Overview
               </h4>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm md:text-base">
+              <p className="text-slate-800 leading-relaxed font-semibold text-sm md:text-base">
                 {project.longDescription || project.description}
               </p>
             </div>
 
             {/* Tech Stack Tags */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 font-mono">
                 Technologies Used
               </h4>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200/50 dark:border-white/5"
+                    className="px-3 py-1 text-xs font-bold rounded-lg bg-slate-100/80 text-slate-800 border border-slate-200/60 font-sans"
                   >
                     {tag}
                   </span>
@@ -151,12 +151,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </div>
 
             {/* Links CTA */}
-            <div className="flex flex-wrap gap-4 border-t border-slate-200/60 dark:border-white/5 pt-6 mt-2">
+            <div className="flex flex-wrap gap-4 border-t border-slate-200/60 pt-6 mt-2">
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-900 dark:bg-white/10 dark:hover:bg-white/15 text-white font-semibold flex items-center gap-2 shadow-sm transition-all clickable text-sm"
+                className="px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-950 text-white font-semibold flex items-center gap-2 shadow-sm transition-all clickable text-sm"
               >
                 <Github className="w-4 h-4" />
                 <span>GitHub Repository</span>

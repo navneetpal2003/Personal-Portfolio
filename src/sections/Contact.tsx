@@ -18,6 +18,12 @@ export default function Contact({ email, phone }: ContactProps) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const encode = (data: Record<string, string>) => {
+    return Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
@@ -28,21 +34,20 @@ export default function Contact({ email, phone }: ContactProps) {
 
     setStatus('loading');
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...formData }),
       });
 
-      const data = await response.json();
-      if (response.ok && data.success) {
+      if (response.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
         // Reset status after a few seconds
         setTimeout(() => setStatus('idle'), 5000);
       } else {
         setStatus('error');
-        setErrorMsg(data.error || 'Failed to send message.');
+        setErrorMsg('Failed to send message.');
       }
     } catch {
       setStatus('error');
@@ -53,13 +58,13 @@ export default function Contact({ email, phone }: ContactProps) {
   return (
     <section id="contact" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background blobs */}
-      <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none glow-blob" />
-      <div className="absolute bottom-[10%] right-[10%] w-[25vw] h-[25vw] bg-primary/5 rounded-full blur-[90px] pointer-events-none glow-blob [animation-delay:3s]" />
+      <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] bg-indigo-500/8 rounded-full blur-[100px] pointer-events-none glow-blob" />
+      <div className="absolute bottom-[10%] right-[10%] w-[25vw] h-[25vw] bg-primary/8 rounded-full blur-[90px] pointer-events-none glow-blob [animation-delay:3s]" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 font-display">
             Get in{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-500">
               Touch
@@ -68,11 +73,17 @@ export default function Contact({ email, phone }: ContactProps) {
           <div className="w-16 h-1 bg-gradient-to-r from-primary to-indigo-500 mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
+        <motion.div 
+          initial={{ opacity: 0, y: 40, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ type: "spring", stiffness: 85, damping: 15, delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start"
+        >
           {/* Info Side Card */}
           <div className="md:col-span-2 flex flex-col gap-6">
-            <div className="glass p-6 rounded-2xl border border-white/40 dark:border-white/5 flex flex-col gap-6">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Contact Information</h3>
+            <div className="glass p-6 rounded-2xl border border-white/55 flex flex-col gap-6">
+              <h3 className="text-lg font-bold text-slate-900 font-display">Contact Information</h3>
               
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-4">
@@ -80,10 +91,10 @@ export default function Contact({ email, phone }: ContactProps) {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Email</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono">Email</p>
                     <a
                       href={`mailto:${email}`}
-                      className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary transition-colors break-all"
+                      className="text-sm font-semibold text-slate-800 hover:text-primary transition-colors break-all"
                     >
                       {email}
                     </a>
@@ -95,10 +106,10 @@ export default function Contact({ email, phone }: ContactProps) {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Phone</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono">Phone</p>
                     <a
                       href={`tel:${phone}`}
-                      className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary transition-colors"
+                      className="text-sm font-semibold text-slate-800 hover:text-primary transition-colors"
                     >
                       {phone}
                     </a>
@@ -110,8 +121,8 @@ export default function Contact({ email, phone }: ContactProps) {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Location</p>
-                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono">Location</p>
+                    <p className="text-sm font-semibold text-slate-800">
                       Meerut, Uttar Pradesh, India
                     </p>
                   </div>
@@ -124,13 +135,16 @@ export default function Contact({ email, phone }: ContactProps) {
           <div className="md:col-span-3">
             <form
               onSubmit={handleSubmit}
-              className="glass p-6 md:p-8 rounded-3xl border border-white/40 dark:border-white/5 flex flex-col gap-5"
+              name="contact"
+              data-netlify="true"
+              className="glass p-6 md:p-8 rounded-3xl border border-white/55 flex flex-col gap-5"
             >
+              <input type="hidden" name="form-name" value="contact" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="name"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                    className="text-xs font-bold uppercase tracking-wider text-slate-600 font-mono"
                   >
                     Name
                   </label>
@@ -141,14 +155,14 @@ export default function Contact({ email, phone }: ContactProps) {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="px-4 py-2.5 rounded-xl border border-slate-200/60 dark:border-white/5 bg-white/20 dark:bg-white/5 focus:outline-none focus:border-primary transition-all text-sm font-medium text-slate-900 dark:text-white"
+                    className="px-4 py-2.5 rounded-xl border border-white/40 bg-white/15 backdrop-blur-md focus:bg-white/30 focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary/50 transition-all text-sm font-bold text-slate-800 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.03)] placeholder-slate-400"
                     placeholder="Enter your name"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="email"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                    className="text-xs font-bold uppercase tracking-wider text-slate-600 font-mono"
                   >
                     Email
                   </label>
@@ -159,7 +173,7 @@ export default function Contact({ email, phone }: ContactProps) {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="px-4 py-2.5 rounded-xl border border-slate-200/60 dark:border-white/5 bg-white/20 dark:bg-white/5 focus:outline-none focus:border-primary transition-all text-sm font-medium text-slate-900 dark:text-white"
+                    className="px-4 py-2.5 rounded-xl border border-white/40 bg-white/15 backdrop-blur-md focus:bg-white/30 focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary/50 transition-all text-sm font-bold text-slate-800 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.03)] placeholder-slate-400"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -168,7 +182,7 @@ export default function Contact({ email, phone }: ContactProps) {
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="subject"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-600 font-mono"
                 >
                   Subject
                 </label>
@@ -178,7 +192,7 @@ export default function Contact({ email, phone }: ContactProps) {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200/60 dark:border-white/5 bg-white/20 dark:bg-white/5 focus:outline-none focus:border-primary transition-all text-sm font-medium text-slate-900 dark:text-white"
+                  className="px-4 py-2.5 rounded-xl border border-white/40 bg-white/15 backdrop-blur-md focus:bg-white/30 focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary/50 transition-all text-sm font-bold text-slate-800 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.03)] placeholder-slate-400"
                   placeholder="Subject of message"
                 />
               </div>
@@ -186,7 +200,7 @@ export default function Contact({ email, phone }: ContactProps) {
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="message"
-                  className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-600 font-mono"
                 >
                   Message
                 </label>
@@ -197,7 +211,7 @@ export default function Contact({ email, phone }: ContactProps) {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="px-4 py-3 rounded-xl border border-slate-200/60 dark:border-white/5 bg-white/20 dark:bg-white/5 focus:outline-none focus:border-primary transition-all text-sm font-medium text-slate-900 dark:text-white resize-none"
+                  className="px-4 py-3 rounded-xl border border-white/40 bg-white/15 backdrop-blur-md focus:bg-white/30 focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary/50 transition-all text-sm font-bold text-slate-800 resize-none shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.03)] placeholder-slate-400"
                   placeholder="Type your message here..."
                 />
               </div>
@@ -205,7 +219,7 @@ export default function Contact({ email, phone }: ContactProps) {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-bold flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(127,13,242,0.2)] transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-bold flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(127,13,242,0.2)] hover:shadow-[0_8px_25px_rgba(127,13,242,0.3)] transition-all transform hover:-translate-y-0.5 cursor-pointer disabled:opacity-50"
               >
                 {status === 'loading' ? (
                   <>
@@ -226,7 +240,7 @@ export default function Contact({ email, phone }: ContactProps) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="flex items-center gap-2 text-emerald-500 font-semibold text-sm bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20"
+                    className="flex items-center gap-2 text-emerald-500 font-bold text-sm bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20"
                   >
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <span>Your message has been sent successfully!</span>
@@ -237,7 +251,7 @@ export default function Contact({ email, phone }: ContactProps) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="flex items-center gap-2 text-rose-500 font-semibold text-sm bg-rose-500/10 p-3 rounded-xl border border-rose-500/20"
+                    className="flex items-center gap-2 text-rose-500 font-bold text-sm bg-rose-500/10 p-3 rounded-xl border border-rose-500/20"
                   >
                     <AlertCircle className="w-5 h-5 shrink-0" />
                     <span>{errorMsg}</span>
@@ -246,7 +260,7 @@ export default function Contact({ email, phone }: ContactProps) {
               </AnimatePresence>
             </form>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

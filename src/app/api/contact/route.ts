@@ -1,17 +1,8 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/lib/auth';
 import fs from 'fs/promises';
 import path from 'path';
 
 const messagesPath = path.join(process.cwd(), 'src/data/messages.json');
-
-async function isAuthenticated(): Promise<boolean> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('admin_token')?.value;
-  if (!token) return false;
-  return verifyToken(token) !== null;
-}
 
 export async function POST(request: Request) {
   try {
@@ -56,10 +47,6 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     let messages = [];
     try {

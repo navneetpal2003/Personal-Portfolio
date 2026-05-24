@@ -1,0 +1,31 @@
+{
+  "..\\node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js": {
+    "id": null,
+    "files": []
+  },
+  "..\\node_modules\\@react-three\\drei\\web\\FaceLandmarker.js -> @mediapipe/tasks-vision": {
+    "id": null,
+    "files": []
+  },
+  "..\\node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
+    "id": 1966,
+    "files": [
+      "static/chunks/966.1775eb621d8d3e09.js"
+    ]
+  },
+  "..\\node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {
+    "id": 3899,
+    "files": [
+      "static/chunks/899.1813981119fa1f8a.js"
+    ]
+  },
+  "sections\\Hero.tsx -> @/components/ThreeDBackground": {
+    "id": 8148,
+    "files": [
+      "static/chunks/b536a0f1.bbc5cf8b2e5af114.js",
+      "static/chunks/bd904a5c.c45466ea70c0e753.js",
+      "static/chunks/b79b7286.0b261621a610802f.js",
+      "static/chunks/230.d43b8a7ede864040.js"
+    ]
+  }
+}

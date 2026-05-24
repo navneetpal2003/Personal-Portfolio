@@ -1,14 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { getProfile, updateProfile } from '@/lib/db';
-import { verifyToken } from '@/lib/auth';
-
-async function isAuthenticated(): Promise<boolean> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('admin_token')?.value;
-  if (!token) return false;
-  return verifyToken(token) !== null;
-}
 
 export async function GET() {
   const profile = getProfile();
@@ -16,10 +7,6 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     const updatedProfile = await request.json();
     const success = updateProfile(updatedProfile);

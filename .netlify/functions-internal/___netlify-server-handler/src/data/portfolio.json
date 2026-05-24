@@ -1,0 +1,184 @@
+{
+  "profile": {
+    "name": "Nav Neet Pal",
+    "title": "Generative AI & Intelligent Systems Engineer",
+    "email": "navneetpalmrt2003@gmail.com",
+    "phone": "+91 6397807270",
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "bio": "B.Tech Computer Science student specializing in building agentic AI workflows, LLM applications, and predictive data science models. Experienced in developing medical RAG agents, placement prep bots, and translational tooling.",
+    "resumeUrl": "/Nav_Neet_Pal__AIML_.pdf"
+  },
+  "projects": [
+    {
+      "id": "medical-chatbot",
+      "title": "LLM-based Medical Chatbot (RAG Architecture)",
+      "description": "Generative AI-powered medical chatbot using Retrieval-Augmented Generation (RAG) to provide accurate, context-aware answers.",
+      "longDescription": "Developed a Generative AI-powered medical chatbot using Retrieval-Augmented Generation (RAG) to provide accurate and context-aware healthcare responses. Implemented document indexing by generating embeddings with Hugging Face models and storing them in Pinecone vector database. Integrated LangChain with Gemini LLM to retrieve relevant context and generate precise conversational answers. Deployed on Streamlit.",
+      "image": "/uploads/medical-chatbot.jpg",
+      "githubUrl": "https://github.com",
+      "demoUrl": "",
+      "tags": [
+        "Python",
+        "LangChain",
+        "Pinecone",
+        "Gemini LLM",
+        "Hugging Face",
+        "RAG"
+      ],
+      "category": "AI/ML",
+      "featured": true
+    },
+    {
+      "id": "atoprep-ai",
+      "title": "ATOPREP AI – Placement Prep Bot",
+      "description": "AI-powered chatbot using Gemini API to assist students in placement preparation.",
+      "longDescription": "Developed an AI-powered chatbot using Gemini API and Generative AI to assist students in placement preparation. Integrated 3 functional modes: Topic Explainer, Quiz Generator, and Code Debugger with AI suggestions. Used Python to handle API calls, backend logic, and intelligent response generation based on student queries.",
+      "image": "/uploads/atoprep.jpg",
+      "githubUrl": "https://github.com",
+      "demoUrl": "",
+      "tags": [
+        "Python",
+        "Gemini API",
+        "Generative AI",
+        "AI Chatbot"
+      ],
+      "category": "AI/ML",
+      "featured": true
+    },
+    {
+      "id": "heart-stroke-prediction",
+      "title": "Heart Stroke Prediction",
+      "description": "GUI-based Heat disease prediction model built using Scikit-Learn and Streamlit.",
+      "longDescription": "Built a GUI-based Heat disease prediction model. Performed data cleaning, preprocessing, and handled missing and imbalanced data. Conducted Exploratory Data Analysis (EDA) to identify key risk indicators. Selected the best-performing model based on accuracy and other performance metrics and deployed using streamlit.",
+      "image": "/uploads/heart-stroke.jpg",
+      "githubUrl": "https://github.com",
+      "demoUrl": "",
+      "tags": [
+        "Python",
+        "NumPy",
+        "Pandas",
+        "Scikit-Learn",
+        "Streamlit",
+        "Data Science"
+      ],
+      "category": "Data Science",
+      "featured": false
+    },
+    {
+      "id": "translator-tool",
+      "title": "Translator Tool",
+      "description": "GUI-based real-time Translator Tool built with Python and Tkinter.",
+      "longDescription": "Built a GUI-based real-time Translator Tool with Python and Tkinter. Implemented multi-language support using Google Translate API. Used NLTK for text processing tasks like tokenization and stemming to improve translation accuracy.",
+      "image": "/uploads/translator.jpg",
+      "githubUrl": "https://github.com",
+      "demoUrl": "",
+      "tags": [
+        "Python",
+        "Tkinter",
+        "Google API",
+        "NLTK"
+      ],
+      "category": "Tools",
+      "featured": false
+    }
+  ],
+  "skills": [
+    {
+      "category": "AI/ML",
+      "list": [
+        "Generative AI",
+        "Agentic AI",
+        "Machine Learning",
+        "Gemini API",
+        "NLP",
+        "LLM",
+        "RAG"
+      ]
+    },
+    {
+      "category": "Data Science Tools",
+      "list": [
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "Seaborn",
+        "scikit-learn",
+        "Hugging Face"
+      ]
+    },
+    {
+      "category": "Programming Languages",
+      "list": [
+        "Python",
+        "C++",
+        "SQL",
+        "JavaScript"
+      ]
+    },
+    {
+      "category": "Frameworks",
+      "list": [
+        "React",
+        "Next.js",
+        "Tkinter",
+        "LangChain",
+        "LangGraph"
+      ]
+    },
+    {
+      "category": "Tools & Platforms",
+      "list": [
+        "Git",
+        "GitHub",
+        "Postman",
+        "VS Code",
+        "Docker",
+        "Streamlit"
+      ]
+    },
+    {
+      "category": "Core Subjects",
+      "list": [
+        "Data Structures",
+        "OOP",
+        "OS",
+        "DBMS",
+        "Computer Networks"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-1",
+      "role": "B.Tech in Computer Science",
+      "company": "Meerut Institute of Technology, Meerut",
+      "period": "2021 - 2025",
+      "description": "Pioneered research projects and RAG-based Generative AI applications. Maintained excellent academic standing in core CSE subjects.",
+      "type": "Education"
+    },
+    {
+      "id": "exp-2",
+      "role": "Intermediate (12th)",
+      "company": "Noble Public School",
+      "period": "2020 - 2021",
+      "description": "Graduated with honors focusing on science, mathematics, and computational fundamentals.",
+      "type": "Education"
+    },
+    {
+      "id": "exp-3",
+      "role": "High School (10th)",
+      "company": "Noble Public School",
+      "period": "2018 - 2019",
+      "description": "Completed foundational schooling.",
+      "type": "Education"
+    }
+  ],
+  "achievements": [
+    "4-star coder on HackerRank in C++",
+    "4-star in Python on HackerRank",
+    "3rd rank in college CES society coding event",
+    "Solved 200+ problems on LeetCode",
+    "Solved 400+ problems across platforms including HackerRank and CodeStudio"
+  ]
+}

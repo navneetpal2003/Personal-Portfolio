@@ -1,7 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Download, ArrowRight, Mail } from 'lucide-react';
 
 const Github = (props: React.SVGProps<SVGSVGElement>) => (
@@ -58,6 +59,18 @@ interface HeroProps {
 }
 
 export default function Hero({ profile }: HeroProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const yBlob = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const opacityText = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const opacityBlob = useTransform(scrollYProgress, [0, 0.85], [0.8, 0]);
+  const scaleText = useTransform(scrollYProgress, [0, 0.75], [1, 0.94]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -80,18 +93,25 @@ export default function Hero({ profile }: HeroProps) {
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden"
     >
-      {/* 3D background blob */}
-      <ThreeDBackground />
+      {/* 3D background blob with scroll parallax */}
+      <motion.div
+        style={{ y: yBlob, opacity: opacityBlob }}
+        className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
+      >
+        <ThreeDBackground />
+      </motion.div>
 
       {/* Decorative background lights */}
-      <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] bg-primary/8 rounded-full blur-[100px] pointer-events-none glow-blob" />
-      <div className="absolute bottom-[20%] right-[10%] w-[35vw] h-[35vw] bg-cyan-400/6 rounded-full blur-[120px] pointer-events-none glow-blob [animation-delay:4s]" />
+      <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] bg-primary/10 rounded-full blur-[100px] pointer-events-none glow-blob" />
+      <div className="absolute bottom-[20%] right-[10%] w-[35vw] h-[35vw] bg-cyan-400/8 rounded-full blur-[120px] pointer-events-none glow-blob [animation-delay:4s]" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10 w-full text-center">
         <motion.div
+          style={{ y: yText, opacity: opacityText, scale: scaleText }}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -100,13 +120,13 @@ export default function Hero({ profile }: HeroProps) {
           {/* Status Badge */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-white/50 dark:border-white/10 w-fit"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass w-fit"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-300">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-800">
               Open to Opportunities
             </span>
           </motion.div>
@@ -114,10 +134,10 @@ export default function Hero({ profile }: HeroProps) {
           {/* Heading */}
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight max-w-4xl text-slate-900 dark:text-white"
+            className="text-5xl md:text-7xl font-black tracking-tight max-w-4xl text-slate-900 leading-[1.1]"
           >
             Architecting{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-indigo-500 to-cyan-500">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-indigo-600 to-cyan-500">
               Intelligence
             </span>
           </motion.h1>
@@ -125,7 +145,7 @@ export default function Hero({ profile }: HeroProps) {
           {/* Subheading */}
           <motion.h2
             variants={itemVariants}
-            className="text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200"
+            className="text-xl md:text-2xl font-bold text-slate-800"
           >
             {profile.name} — {profile.title}
           </motion.h2>
@@ -133,7 +153,7 @@ export default function Hero({ profile }: HeroProps) {
           {/* Bio */}
           <motion.p
             variants={itemVariants}
-            className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed font-medium"
+            className="text-base md:text-lg text-slate-700 max-w-2xl leading-relaxed font-medium"
           >
             {profile.bio}
           </motion.p>
@@ -145,7 +165,7 @@ export default function Hero({ profile }: HeroProps) {
           >
             <a
               href="#projects"
-              className="px-6 py-3.5 rounded-full bg-primary hover:bg-primary-dark text-white font-semibold flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(127,13,242,0.3)] transition-all transform hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(127,13,242,0.4)] clickable"
+              className="px-6 py-3.5 rounded-full bg-primary hover:bg-primary-dark text-white font-bold flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(127,13,242,0.2)] hover:shadow-[0_8px_25px_rgba(127,13,242,0.3)] transition-all transform hover:-translate-y-0.5 clickable"
             >
               <span>Explore Projects</span>
               <ArrowRight className="w-4 h-4" />
@@ -154,7 +174,7 @@ export default function Hero({ profile }: HeroProps) {
             <a
               href={profile.resumeUrl}
               download
-              className="px-6 py-3.5 rounded-full glass hover:bg-white/60 dark:hover:bg-white/10 text-slate-800 dark:text-white font-semibold flex items-center justify-center gap-2 border-white/60 transition-all transform hover:-translate-y-0.5 shadow-sm clickable"
+              className="px-6 py-3.5 rounded-full glass-button text-slate-800 font-bold flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 clickable"
             >
               <Download className="w-4 h-4" />
               <span>Download Resume</span>
@@ -170,7 +190,7 @@ export default function Hero({ profile }: HeroProps) {
               href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer"
+              className="text-slate-600 hover:text-primary transition-colors cursor-pointer"
               aria-label="GitHub"
             >
               <Github className="w-5 h-5" />
@@ -179,14 +199,14 @@ export default function Hero({ profile }: HeroProps) {
               href={profile.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer"
+              className="text-slate-600 hover:text-primary transition-colors cursor-pointer"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" />
             </a>
             <a
               href={`mailto:${profile.email}`}
-              className="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer"
+              className="text-slate-600 hover:text-primary transition-colors cursor-pointer"
               aria-label="Email"
             >
               <Mail className="w-5 h-5" />
